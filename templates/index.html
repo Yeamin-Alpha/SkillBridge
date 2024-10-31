@@ -1,0 +1,241 @@
+<!--login:-->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill-Bridge</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .header {
+            background-color: #000000;
+            padding: 10px 0;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .header img {
+            width: 150px;
+        }
+
+        /* Navigation bar styles */
+        nav {
+            background-color: #000000; /* Background color */
+            padding: 30px 20px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 15px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* Hover effect */
+        }
+
+        .search-banner {
+            background-color: #000000;
+            padding: 40px 0;
+            text-align: center;
+            position: relative;
+            color: white;
+        }
+
+        .search-banner h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .search-banner input {
+            width: 50%;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .services-menu {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .services-menu div {
+            margin: 0 10px;
+            text-align: center;
+        }
+
+        .services-menu div img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        .services-menu div p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .popular-services {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .popular-services h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .popular-services .service-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .service-grid div {
+            background-color: #e4e4e4;
+            width: 150px;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .service-grid div img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .service-grid div p {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        footer {
+            padding: 20px;
+            background-color: #000000;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Community</a></li>
+            <li>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}">Account</a>
+                    <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Log in | Sign up</a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
+    
+
+<div class="header">
+    <img src="{% static 'media/mainlogo.jpg'%}" alt="SKILL Logo">
+</div>
+
+
+
+<div class="search-banner">
+    <h1>Find the right <span style="color: #c72f29;">Skill</span> For your help</h1>
+    <input type="text" placeholder="Search for any service...">
+</div>
+
+
+<div class="services-menu">
+    <div>
+        <img src="{% static 'media/personal.jpg'%}" alt="Icon">
+        <p>Home & Personal Service</p>
+    </div>
+    <div>
+        <img src="{% static 'media/repair.jpg'%}" alt="Icon">
+        <p>Repair & Maintenance</p>
+    </div>
+    <div>
+        <img src="{% static 'media/arts.jpg'%}" alt="Icon">
+        <p>Arts & Crafts</p>
+    </div>
+    <div>
+        <img src="{% static 'media/education.jpg'%}" alt="Icon">
+        <p>Educational</p>
+    </div>
+    <div>
+        <img src="{% static 'media/tecnical.jpg'%}" alt="Icon">
+        <p>Digital & Technical</p>
+    </div>
+    <div>
+        <img src="{% static 'media/more.jpg'%}" alt="Icon">
+        <p>More</p>
+    </div>
+</div>
+
+<div class="popular-services">
+    <h2>Popular services</h2>
+    <div class="service-grid">
+        <div>
+            <img src="{% static 'media/tutor.jpg'%}" alt="Service Image">
+            <p>Tutor</p>
+        </div>
+        <div>
+            <img src="{% static 'media/care.jpg'%}" alt="Service Image">
+            <p>Baby Sitter</p>
+        </div>
+        <div>
+            <img src="{% static 'media/garden.jpg'%}" alt="Service Image">
+            <p>Gardening</p>
+        </div>
+        <div>
+            <img src="{% static 'media/graphics.jpg'%}" alt="Service Image">
+            <p>Graphics Design</p>
+        </div>
+        <div>
+            <img src="{% static 'media/erand.jpg'%}" alt="Service Image">
+            <p>Errand Running</p>
+        </div>
+        <div>
+            <img src="{% static 'media/cars.jpg'%}" alt="Service Image">
+            <p>Car Maintenance</p>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>Share Your Skill</p>
+</footer>
+
+</body>
+</html>

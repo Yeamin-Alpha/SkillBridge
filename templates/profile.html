@@ -1,0 +1,211 @@
+<!--profile.html-->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Montserrat&family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+    <title>User Profile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: #000000;
+            padding: 10px 0;
+            color: white;
+            text-align: center;
+        }
+
+        .header img {
+            width: 150px;
+        }
+
+        nav {
+            background-color: #000;
+            padding: 15px 0;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 4rem auto;
+            padding: 3rem;
+            max-width: 800px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .graphics img {
+            width: 200px;
+            margin-bottom: 2rem;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            text-align: center;
+        }
+
+        .user-profile-image-box {
+            margin-bottom: 1rem;
+        }
+
+        .profile-image {
+            height: 120px;
+            width: 120px;
+            border-radius: 50%;
+            border: 3px solid #333;
+            object-fit: cover;
+        }
+
+        .user-info {
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        .label-data {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid #e4e4e4;
+            align-items: center;
+        }
+
+        .label {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #333;
+            width: 30%;
+            text-align: right;
+            padding-right: 10px;
+        }
+
+        .data {
+            width: 60%;
+            text-align: left;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #f1f1f1;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 15px;
+            background-color: #000;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    
+
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Community</a></li>
+            <li>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
+    <div class="header">
+        <img src="{% static 'media/mainlogo.jpg'%}" alt="SKILL Logo">
+    </div>
+
+    <main>
+        <div class="profile-info">
+            <div class="user-profile-image-box">
+                <form action="#" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="img">
+                        <img class="profile-image" src="{{ profile.image.url }}" alt="User Image">
+                    </label>
+                    <input style="visibility:hidden; width:0; height:0" type="file" id="img" name="img" accept="image/*" onchange="this.form.submit();">
+                    <button type="button" onclick="document.getElementById('img').click();">
+                        Choose Image
+                    </button>
+                </form>
+            </div>
+    
+            <div class="user-info">
+                <div class="label-data">
+                    <div class="label">Name</div>
+                    <div class="data">{{ user.username }}</div>
+                </div>
+    
+                <div class="label-data">
+                    <div class="label">Email</div>
+                    <div class="data">{{ user.email }}</div>
+                </div>
+    
+                <div class="label-data">
+                    <div class="label">Password</div>
+                    <div class="data">********</div>
+                </div>
+
+                <div class="label-data">
+                    <form action="#" method="post">
+                        {% csrf_token %}
+                        <label for="bio">Bio:</label><br>
+                        <textarea id="bio" name="bio" rows="4" cols="50">{{ profile.bio }}</textarea><br>
+                        <button type="submit">Update Bio</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+
+    <footer>
+        <p>Share Your Skill</p>
+    </footer>
+</body>
+
+</html>

@@ -1,4 +1,3 @@
-<!--profile.html-->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -6,206 +5,297 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Montserrat&family=Sacramento&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <title>User Profile</title>
     <style>
         * {
             margin: 0;
             padding: 0;
-            font-family: 'Montserrat', Arial, Helvetica, sans-serif;
             box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
         }
 
         body {
-            background-color: #f9f9f9;
             display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            height: 100vh;
+            background-color: #f0f2f5;
+            color: #333;
+            animation: fadeIn 0.6s ease-in-out;
+            padding: 20px;
         }
 
-        .header {
-            background-color: #000000;
-            padding: 10px 0;
-            color: white;
-            text-align: center;
-        }
-
-        .header img {
-            width: 150px;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         nav {
-            background-color: #000;
-            padding: 15px 0;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            background-color: #000000;
+            width: 250px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        nav img {
+            width: 150px;
+            margin-bottom: 20px;
         }
 
         nav ul {
             list-style: none;
-            display: flex;
-            justify-content: center;
+            width: 100%;
+            padding-top: 20px;
         }
 
         nav ul li {
-            margin: 0 15px;
+            margin: 15px 0;
+            text-align: center;
         }
 
         nav ul li a {
             text-decoration: none;
-            color: white;
-            padding: 8px 15px;
+            color: #e0e0e0;
+            padding: 10px 15px;
+            display: block;
             border-radius: 5px;
-            transition: background-color 0.3s;
+            transition: background 0.3s, color 0.3s;
         }
 
         nav ul li a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: #393e46;
+            color: #fff;
         }
 
-        main {
+        .container {
+            flex: 1;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 4rem auto;
-            padding: 3rem;
-            max-width: 800px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 20px;
         }
 
-        .graphics img {
-            width: 200px;
-            margin-bottom: 2rem;
+        .profile-card {
+            background-color: #f3f2ff;
+            border-radius: 15px;
+            padding: 40px;
+            width: 800px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 40px;
+            align-items: start;
+            position: relative;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .profile-image-wrapper {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid #252a34;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .upload-btn {
+            position: absolute;
+            bottom: 550px;
+            background: #252a3470;
+            color: white;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .upload-btn:hover {
+            background: #393e46;
         }
 
         .profile-info {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            width: 100%;
-            text-align: center;
+            gap: 25px;
         }
 
-        .user-profile-image-box {
-            margin-bottom: 1rem;
-        }
-
-        .profile-image {
-            height: 120px;
-            width: 120px;
-            border-radius: 50%;
-            border: 3px solid #333;
-            object-fit: cover;
-        }
-
-        .user-info {
-            width: 100%;
-            margin-top: 2rem;
-        }
-
-        .label-data {
-            display: flex;
-            justify-content: space-between;
-            padding: 1rem;
-            border-bottom: 1px solid #e4e4e4;
-            align-items: center;
-        }
-
-        .label {
-            font-weight: bold;
+        .profile-info label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #555;
+            line-height: 1.4;
             font-size: 1.1rem;
-            color: #333;
-            width: 30%;
-            text-align: right;
-            padding-right: 10px;
         }
 
-        .data {
-            width: 60%;
-            text-align: left;
-            padding: 5px 10px;
-            border-radius: 5px;
-            background-color: #f1f1f1;
+        .profile-info input, .profile-info textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s;
+            line-height: 1.5;
+            font-size: 1rem;
         }
 
-        footer {
-            margin-top: auto;
-            padding: 15px;
-            background-color: #000;
-            color: white;
-            text-align: center;
+        .profile-info input:focus, .profile-info textarea:focus {
+            border-color: #252a34;
+            background-color: #fff;
+        }
+
+        .gender-options {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .gender-options label {
+            font-weight: normal;
+            font-size: 0.9rem;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn-save {
+            background-color: #252a34;
+            color: #fff;
+        }
+
+        .btn-delete {
+            background-color: #d9534f;
+            color: #fff;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .change-password-link {
+            font-size: 0.9rem;
+            color: #007bff;
+            text-decoration: underline;
+            margin-top: 5px;
+            display: inline-block;
         }
     </style>
+
 </head>
 
 <body>
-    
 
     <nav>
+        <img src="{% static 'media/mainlogo.jpg' %}" alt="SKILL Logo">
         <ul>
             <li><a href="#">Home</a></li>
             <li><a href="#">Services</a></li>
             <li><a href="#">Community</a></li>
             <li>
                 {% if user.is_authenticated %}
-                    <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+                <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
                 {% endif %}
             </li>
         </ul>
     </nav>
-    <div class="header">
-        <img src="{% static 'media/mainlogo.jpg'%}" alt="SKILL Logo">
-    </div>
 
-    <main>
-        <div class="profile-info">
-            <div class="user-profile-image-box">
-                <form action="#" method="post" enctype="multipart/form-data">
+    <div class="container">
+        <div class="profile-card">
+            <div class="profile-image-wrapper">
+                <form action="{% url 'profile' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <label for="img">
-                        <img class="profile-image" src="{{ profile.image.url }}" alt="User Image">
+                    <label for="img" style="cursor: pointer;">
+                        <img class="profile-image" src="{{ profile.image.url }}" alt="">
                     </label>
-                    <input style="visibility:hidden; width:0; height:0" type="file" id="img" name="img" accept="image/*" onchange="this.form.submit();">
-                    <button type="button" onclick="document.getElementById('img').click();">
+                    <input style="visibility:hidden; width:0; height:0;" type="file" id="img" name="img" accept="image/*" onchange="this.form.submit();">
+                    <button class="upload-btn" type="button" onclick="document.getElementById('img').click();">
                         Choose Image
                     </button>
                 </form>
             </div>
-    
-            <div class="user-info">
-                <div class="label-data">
-                    <div class="label">Name</div>
-                    <div class="data">{{ user.username }}</div>
-                </div>
-    
-                <div class="label-data">
-                    <div class="label">Email</div>
-                    <div class="data">{{ user.email }}</div>
-                </div>
-    
-                <div class="label-data">
-                    <div class="label">Password</div>
-                    <div class="data">********</div>
-                </div>
 
-                <div class="label-data">
-                    <form action="#" method="post">
-                        {% csrf_token %}
-                        <label for="bio">Bio:</label><br>
-                        <textarea id="bio" name="bio" rows="4" cols="50">{{ profile.bio }}</textarea><br>
-                        <button type="submit">Update Bio</button>
-                    </form>
-                </div>
+            <div class="profile-info">
+                <form action="{% url 'profile' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="username">User Name</label>
+                    <input type="text" id="username" name="username" value="{{ user.username }}" readonly>
+
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" value="{{ profile.name }}">
+
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" value="{{ user.email }}" readonly>
+
+                    <label for="password">Password</label>
+                    <div>
+                        <input type="password" value="********" readonly>
+                        <a href="{% url 'password_change' %}" class="change-password-link">Change Password</a>
+                    </div>
+                
+                    <label for="phone">Number</label>
+                    <input type="text" id="phone" name="phone" value="{{ profile.phone|default_if_none:''}}">
+                    {% if errors.phone_error %}
+                        <div class="error">{{ errors.phone_error }}</div>
+                    {% endif %}
+
+
+                    <label for="birthday">Birthday</label>
+                    <input type="date" id="birthday" name="birthday" value="{{ profile.birthday|date:'Y-m-d' }}">
+
+                    <label for="gender">Gender</label>
+                    <div class="gender-options">
+                        <label><input type="radio" name="gender" value="Male" {% if profile.gender == 'Male' %}checked{% endif %}> Male</label>
+                        <label><input type="radio" name="gender" value="Female" {% if profile.gender == 'Female' %}checked{% endif %}> Female</label>
+                        <label><input type="radio" name="gender" value="Other" {% if profile.gender == 'Other' %}checked{% endif %}> Other</label>
+                    </div>
+
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" value="{{ profile.location|default:'Area, City, Division, Country' }}">
+
+                    <label for="bio">Bio</label>
+                    <textarea id="bio" name="bio" rows="3">{{ profile.bio }}</textarea>
+
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-save">Save Profile</button>
+                        <a href="{% url 'delete_profile' %}" class="btn btn-delete">Delete Profile</a>
+                    </div>
+                </form>
             </div>
         </div>
-    </main>
-    
+    </div>
 
-    <footer>
-        <p>Share Your Skill</p>
-    </footer>
 </body>
-
 </html>

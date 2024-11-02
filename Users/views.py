@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from .models import profile
+from django.contrib import messages
+
 
 def index(request):
     return render(request, 'index.html')
@@ -50,24 +52,58 @@ def signup_page(request):
 
 @login_required
 def profile_page(request):
-    # Get or create the user's profile
     user_profile_instance, created = profile.objects.get_or_create(user=request.user)
+    errors = {}  # Dictionary to store any validation errors
 
     if request.method == 'POST':
         img = request.FILES.get('img')
         bio = request.POST.get('bio')
+        name = request.POST.get('name')
+        birthday = request.POST.get('birthday')
+        gender = request.POST.get("gender")
+        phone = request.POST.get("phone")
+        location = request.POST.get('location')
 
+        # Update fields if they have been provided
         if img:
             user_profile_instance.image = img
         if bio:
             user_profile_instance.bio = bio
+        if name:
+            user_profile_instance.name = name
+        if birthday:
+            user_profile_instance.birthday = birthday
+
+        # Validate phone number
+        if phone:
+            if phone.isdigit() and len(phone) == 11:
+                user_profile_instance.phone = phone
+            else:
+                errors['phone_error'] = "Invalid phone number. Please enter an 11-digit number."
+
+        if gender:
+            user_profile_instance.gender = gender    
+        if location:
+            user_profile_instance.location = location
         
-        user_profile_instance.save()
+        # Save only if there are no errors
+        if not errors:
+            user_profile_instance.save()
+            return redirect('profile')  # Redirect after saving
 
-        return redirect('profile')  # Redirect to the same page after update
-
-    return render(request, 'profile.html', {'profile': user_profile_instance, 'user': request.user})
+    return render(request, 'profile.html', {'profile': user_profile_instance, 'user': request.user, 'errors': errors})
 
 def Ulogout(request):
     auth_logout(request)
     return redirect('login')
+
+@login_required
+def delete_profile(request):
+    if request.method == 'POST':
+        
+        user = request.user
+        user.delete()
+        messages.success(request, "Your profile has been deleted successfully.")
+        return redirect('signup')  
+
+    return render(request, 'delete_profile.html')
